@@ -11,7 +11,7 @@ import java.util.Map;
 @RequestMapping("/api/v1/put-api")
 public class PutController {
 
-    @PostMapping(value = "/domain4")
+    @PutMapping(value = "/domain4")
     public ResponseEntity<MemberDto> putExample(@RequestBody MemberDto memberDto){
         return ResponseEntity
                 .status(HttpStatus.ACCEPTED)
