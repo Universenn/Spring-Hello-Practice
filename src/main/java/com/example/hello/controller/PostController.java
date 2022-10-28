@@ -1,6 +1,6 @@
 package com.example.hello.controller;
 
-import com.example.hello.domain.MemberDto;
+import com.example.hello.domain.dto.MemberDto;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;

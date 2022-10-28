@@ -1,4 +1,4 @@
-package com.example.hello.domain;
+package com.example.hello.domain.dto;
 
 public class MemberDto {
     private String name;
