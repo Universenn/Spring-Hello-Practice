@@ -3,21 +3,22 @@ package com.example.hello.dao;
 import com.example.hello.domain.User;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+@Repository
 public class UserDao {
     private final DataSource dataSource;
 
     private final JdbcTemplate jdbcTemplate;
 
-    public UserDao(DataSource dataSource) {
+
+    public UserDao(DataSource dataSource, JdbcTemplate jdbcTemplate) {
         this.dataSource = dataSource;
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
+        this.jdbcTemplate = jdbcTemplate;
     }
     RowMapper<User> rowMapper = new RowMapper<User>() {
         @Override
