@@ -1,5 +1,6 @@
 package com.example.hello.parser;
 
+import com.example.hello.dao.HospitalDao;
 import com.example.hello.domain.Hospital;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,20 @@ class HospitalParserTest {
 
     @Autowired
     ReadLineContext<Hospital> hospitalReadLineContext;
+
+    // HospitalDao 는 Factory가 없는데 왜 DI가 될까
+    // Component 어노테이션이 달린 클래스는 bean으로 등록이 가능하다.
+    // spring 부트 에서 해주는건가?
+    @Autowired
+    HospitalDao hospitalDao;
+
+    @Test
+    void name() {
+        HospitalParser hp = new HospitalParser();
+        Hospital hospital = hp.parse(line1);
+        hospitalDao.add(hospital);
+        // get이 없어서 aseert는 눈으로
+    }
 
     @Test
     @DisplayName("10만건 이상 데이터 파싱 확인")
