@@ -29,11 +29,25 @@ class HospitalParserTest {
     HospitalDao hospitalDao;
 
     @Test
-    void name() {
+    @DisplayName("insert select count delete 테스트")
+    void addAndGet() {
+        hospitalDao.deleteAll();
+        assertEquals(0, hospitalDao.getCount());
         HospitalParser hp = new HospitalParser();
+
         Hospital hospital = hp.parse(line1);
         hospitalDao.add(hospital);
-        // get이 없어서 aseert는 눈으로
+        assertEquals(1,hospitalDao.getCount());
+
+        Hospital selectedHospital = hospitalDao.findById(hospital.getId());
+        assertEquals(selectedHospital.getId(),hospital.getId());
+        assertEquals(selectedHospital.getOpenServiceName(),hospital.getOpenServiceName());
+        assertEquals(selectedHospital.getHospitalName(),hospital.getHospitalName());
+    }
+
+    @Test
+    void getCount() {
+
     }
 
     @Test

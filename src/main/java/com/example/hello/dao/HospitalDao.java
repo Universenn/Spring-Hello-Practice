@@ -1,7 +1,9 @@
 package com.example.hello.dao;
 
 import com.example.hello.domain.Hospital;
+import org.apache.catalina.mapper.Mapper;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -9,8 +11,28 @@ public class HospitalDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+
+    RowMapper<Hospital> rowMapper = (rs, rowNum) ->{
+        Hospital hospital = new Hospital();
+        hospital.setId(rs.getInt("id"));
+        hospital.setOpenServiceName(rs.getString("open_service_name"));
+        hospital.setHospitalName(rs.getString("hospital_name"));
+        return hospital;
+    };
     public HospitalDao(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
+    }
+
+    public Hospital findById(int id){
+        return this.jdbcTemplate.queryForObject("select * from nation_wide_hospital where id = ?",rowMapper ,id);
+    }
+
+    public void deleteAll() {
+        this.jdbcTemplate.update("delete from nation_wide_hospital");
+    }
+    public int getCount(){
+        String sql = "select count(id) from nation_wide_hospital;";
+        return this.jdbcTemplate.queryForObject(sql, Integer.class);
     }
 
     // List<Hospital> -- 11만건 hospital
