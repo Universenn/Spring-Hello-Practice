@@ -2,6 +2,7 @@ package com.example.hello.parser;
 
 import com.example.hello.dao.HospitalDao;
 import com.example.hello.domain.Hospital;
+import com.example.hello.service.HospitalService;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +23,53 @@ class HospitalParserTest {
     @Autowired
     ReadLineContext<Hospital> hospitalReadLineContext;
 
+    @Autowired
+    HospitalService hospitalService;
+
     // HospitalDao 는 Factory가 없는데 왜 DI가 될까
     // Component 어노테이션이 달린 클래스는 bean으로 등록이 가능하다.
     // spring 부트 에서 해주는건가?
     @Autowired
     HospitalDao hospitalDao;
 
-    @Test
-    @DisplayName("insert select count delete 테스트")
-    void addAndGet() {
-        hospitalDao.deleteAll();
-        assertEquals(0, hospitalDao.getCount());
-        HospitalParser hp = new HospitalParser();
-
-        Hospital hospital = hp.parse(line1);
-        hospitalDao.add(hospital);
-        assertEquals(1,hospitalDao.getCount());
-
-        Hospital selectedHospital = hospitalDao.findById(hospital.getId());
-        assertEquals(selectedHospital.getId(),hospital.getId());
-        assertEquals(selectedHospital.getOpenServiceName(),hospital.getOpenServiceName());
-        assertEquals(selectedHospital.getHospitalName(),hospital.getHospitalName());
-    }
+//    @Test
+//    @DisplayName("insert select count delete 테스트")
+//    void addAndGet() {
+//        hospitalDao.deleteAll();
+//        assertEquals(0, hospitalDao.getCount());
+//        HospitalParser hp = new HospitalParser();
+//
+//        Hospital hospital = hp.parse(line1);
+//        hospitalDao.add(hospital);
+//        assertEquals(1,hospitalDao.getCount());
+//
+//        Hospital selectedHospital = hospitalDao.findById(hospital.getId());
+//        assertEquals(selectedHospital.getId(),hospital.getId());
+//        assertEquals(selectedHospital.getOpenServiceName(),hospital.getOpenServiceName());
+////======================================================================================================
+//        assertEquals(selectedHospital.getOpenLocalGovernmentCode(),hospital.getOpenLocalGovernmentCode());
+//        assertEquals(selectedHospital.getManagementNumber(),hospital.getManagementNumber());
+//        assertEquals(selectedHospital.getBusinessStatus(), hospital.getBusinessStatus()); // idx:7
+//        assertEquals(selectedHospital.getBusinessStatusCode(), hospital.getBusinessStatusCode());
+//
+//        assertTrue(selectedHospital.getLicenseDate().isEqual(hospital.getLicenseDate()));
+//
+//        assertEquals(selectedHospital.getPhone(), hospital.getPhone());
+//        assertEquals(selectedHospital.getFullAddress(), hospital.getFullAddress());
+//        assertEquals(selectedHospital.getRoadNameAddress(), hospital.getRoadNameAddress());
+//        assertEquals(selectedHospital.getHospitalName(), hospital.getHospitalName());
+//        // 이름이 다름
+////        assertEquals(selectedHospital.getBusinessTypeName(), hospital.getBusinessTypeName());
+//        assertEquals(selectedHospital.getHealthcareProviderCount(), hospital.getHealthcareProviderCount());
+//        assertEquals(selectedHospital.getPatientRoomCount(), hospital.getPatientRoomCount());
+//        assertEquals(selectedHospital.getTotalNumberOfBeds(), hospital.getTotalNumberOfBeds());
+//
+//
+////======================================================================================================
+//        // 날짜, float
+//        assertTrue(selectedHospital.getLicenseDate().isEqual(hospital.getLicenseDate()));
+//        assertEquals(selectedHospital.getTotalAreaSize(), hospital.getTotalAreaSize());
+//    }
 
     @Test
     void getCount() {
@@ -55,17 +81,12 @@ class HospitalParserTest {
     void oneHundreadThousandRows() throws IOException {
         // 서버경에서 build할 때 문제가 생길 수도 있다.
         // 어디서든 실행할수 있게 하는게 목표
-        String filename = "C:\\Users\\UserK\\Desktop\\backendschool\\멋사 병의원 - 복사본.csv";
-        List<Hospital> hospitalList  = hospitalReadLineContext.readByLine(filename);
-        assertTrue(hospitalList.size()>10000);
-        assertTrue(hospitalList.size()>100000);
-        for (int i = 0; i < 10; i++) {
-            System.out.println(hospitalList.get(i).getHospitalName());
-        }
-        System.out.printf("파싱된 데이터 개수:", hospitalList.size());
-
-
-}
+//        String filename = "C:\\Users\\UserK\\Desktop\\backendschool\\멋사 병의원 - 복사본.csv";
+//        List<Hospital> hospitalList  = hospitalReadLineContext.readByLine(filename);
+//        int cnt = this.hospitalService.insertLargeVolumeHospitalData(filename);
+//        assertTrue(cnt>10000);
+//        System.out.printf("파싱된 데이터 개수:", cnt);
+    }
 
     @Test
     @DisplayName("csv 1줄을 Hospital로 잘 만드는지 Test")
