@@ -29,6 +29,7 @@ public class HospitalDao {
         hospital.setFullAddress(rs.getString("full_address"));
         hospital.setRoadNameAddress(rs.getString("road_name_address"));
         hospital.setHospitalName(rs.getString("hospital_name"));
+        hospital.setBusinessTypeName(rs.getString("business_type_name"));
         hospital.setHealthcareProviderCount(rs.getInt("healthcare_provider_count"));
         hospital.setPatientRoomCount(rs.getInt("patient_room_number"));
         hospital.setTotalNumberOfBeds(rs.getInt("total_number_of_beds"));
