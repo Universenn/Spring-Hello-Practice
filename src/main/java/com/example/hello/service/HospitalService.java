@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 
 //@Configuration
 @Service
@@ -26,23 +27,27 @@ public class HospitalService {
     @Transactional
     public int insertLargeVolumeHospitalData(String filename){
 //        String filename = "C:\\Users\\UserK\\Desktop\\backendschool\\멋사 병의원 - 복사본.csv";
-        int cnt = 0;
+        List<Hospital> hospitalList;
         try {
-            List<Hospital> hospitalList  = hospitalReadLineContext.readByLine(filename);
-            for (Hospital hospital : hospitalList) { // loop구간
-                try {
-                    this.hospitalDao.add(hospital); // db에 insert하는 구간
-                    cnt ++;
-                } catch (Exception e) {
-                    System.out.printf("id:%d 레코드에 문제가 있습니다.",hospital.getId());
-                    throw new RuntimeException(e);
-                }
-            }
+            hospitalList = hospitalReadLineContext.readByLine(filename);
+            System.out.println("파싱이 끝났습니다.");
+            hospitalList.stream()
+                    .forEach(hospital -> {
+                        try {
+                            this.hospitalDao.add(hospital); // db에 insert하는 구간
+                        } catch (Exception e) {
+                            System.out.printf("id:%d 레코드에 문제가 있습니다.\n",hospital.getId());
+                            throw new RuntimeException(e);
+                        }
+                    });
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-        return cnt;
-
+        // 병렬 처리?
+        if (!Optional.of(hospitalList).isEmpty()) {
+            return hospitalList.size();
+        } else {
+            return 0;
+        }
     }
-
 }
